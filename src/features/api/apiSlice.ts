@@ -20,10 +20,13 @@ export const apiSlice = createApi({
         getCharacters: builder.query<Characters, void>({
             query: () => CHARACTERS_QUERY
         }),
-        getCharacter: builder.query<Character, number>({
+        getCharactersByName: builder.query<Characters, string>({
+            query: (name) => `${CHARACTERS_QUERY}/?name=${name}`
+        }),
+        getSingleCharacterById: builder.query<Character, number>({
             query: (characterId) => `${CHARACTERS_QUERY}/${characterId}`
         })
     })
 })
 
-export const {useGetCharactersQuery, useGetCharacterQuery} = apiSlice
+export const {useGetCharactersQuery, useGetCharactersByNameQuery, useGetSingleCharacterByIdQuery} = apiSlice

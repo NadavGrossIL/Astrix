@@ -4,16 +4,17 @@ import {useGetCharactersQuery} from '../api/apiSlice';
 export const CharactersList = () => {
     const {
         data: characters,
-        isLoading,
+        isFetching,
         isSuccess,
         isError,
         error
     } = useGetCharactersQuery();
 
     let content: any;
-    if (isLoading) {
+    if (isFetching) {
         content = <div>Loading</div>
     } else if (isSuccess) {
+        console.log(characters)
         content = characters?.results?.map(character => <div key={character.id}>{character.name}</div>)
     } else if (isError) {
         content = <div>{error?.toString()}</div>
