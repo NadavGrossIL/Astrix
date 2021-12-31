@@ -1,14 +1,15 @@
-import React from 'react';
-import {useGetCharactersQuery} from '../api/apiSlice';
+import React, {useState} from 'react';
+import {useGetCharactersByPageQuery} from '../api/apiSlice';
 
 export const CharactersList = () => {
+   const [page, setPage] = useState(1)
     const {
         data: characters,
         isFetching,
         isSuccess,
         isError,
         error
-    } = useGetCharactersQuery();
+    } = useGetCharactersByPageQuery(page);
 
     let content: any;
     if (isFetching) {

@@ -5,8 +5,15 @@ export interface Character {
     name: string
 }
 
+export interface CharactersInfo {
+    count: number | undefined,
+    pages: number,
+    next: string,
+    prev: string
+}
+
 export interface Characters {
-    info: any,
+    info: CharactersInfo,
     results: Character[]
 }
 
@@ -17,8 +24,8 @@ export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: BASE_URL}),
     endpoints: builder => ({
-        getCharacters: builder.query<Characters, void>({
-            query: () => CHARACTERS_QUERY
+        getCharactersByPage: builder.query<Characters, number>({
+            query: (pageNumber) => `${CHARACTERS_QUERY}?page=${pageNumber}`
         }),
         getCharactersByName: builder.query<Characters, string>({
             query: (name) => `${CHARACTERS_QUERY}/?name=${name}`
@@ -29,4 +36,4 @@ export const apiSlice = createApi({
     })
 })
 
-export const {useGetCharactersQuery, useGetCharactersByNameQuery, useGetSingleCharacterByIdQuery} = apiSlice
+export const {useGetCharactersByPageQuery, useGetCharactersByNameQuery, useGetSingleCharacterByIdQuery} = apiSlice
