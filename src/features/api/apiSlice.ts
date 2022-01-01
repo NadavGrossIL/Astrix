@@ -2,11 +2,12 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
 export interface Character {
     id: number,
-    name: string
+    name: string,
+    image: string
 }
 
 export interface CharactersInfo {
-    count: number | undefined,
+    count: number,
     pages: number,
     next: string,
     prev: string

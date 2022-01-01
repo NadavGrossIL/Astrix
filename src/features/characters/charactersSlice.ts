@@ -1,25 +1,27 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Character} from "../api/apiSlice";
+import {RootState} from "../../app/store";
 
 export interface CharactersState {
-    characters: any[],
-    info: object
+    loadedCharacters: Character[],
 }
 
 const initialState: CharactersState = {
-    characters: [],
-    info: {}
+    loadedCharacters: [],
 }
 
 export const charactersSlice = createSlice({
     name: 'characters',
     initialState,
     reducers: {
-        addCharacter: (state, action: PayloadAction<any>) => {
-            state.characters.push(action.payload)
+        addCharacters: (state, action: PayloadAction<Character[]>) => {
+             action.payload.forEach(character => state.loadedCharacters.push(character));
         }
     }
 })
 
-export const { addCharacter } = charactersSlice.actions;
+export const selectCharacters = (state: RootState) => state.characters.loadedCharacters;
+
+export const {addCharacters} = charactersSlice.actions;
 
 export default charactersSlice.reducer;

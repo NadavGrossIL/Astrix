@@ -1,8 +1,16 @@
 import React, {useState} from 'react';
 import {useGetCharactersByPageQuery} from '../api/apiSlice';
+import InfiniteScroll from 'react-infinite-scroller';
+import styles from './CharacterList.module.css';
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {addCharacters, selectCharacters} from "./charactersSlice";
+
 
 export const CharactersList = () => {
-   const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1);
+    const currentCharacters = useAppSelector(selectCharacters);
+    const dispatch = useAppDispatch();
+
     const {
         data: characters,
         isFetching,
@@ -11,20 +19,31 @@ export const CharactersList = () => {
         error
     } = useGetCharactersByPageQuery(page);
 
-    let content: any;
-    if (isFetching) {
-        content = <div>Loading</div>
-    } else if (isSuccess) {
-        console.log(characters)
-        content = characters?.results?.map(character => <div key={character.id}>{character.name}</div>)
-    } else if (isError) {
-        content = <div>{error?.toString()}</div>
+    const loadMore = () => {
+        if (characters?.info.next && !isFetching) {
+            dispatch(addCharacters(characters?.results));
+            setPage(page + 1);
+        }
     }
 
     return (
-        <section className="characters-list">
-            <h2>Characters</h2>
-            {content}
+        <section className={styles.list}>
+            <InfiniteScroll
+                data-testid="episodes-infinite-scroll"
+                pageStart={0}
+                loadMore={loadMore}
+                hasMore={!!characters?.info.next}
+                loader={<div key={0}>Loading...</div>}
+            >
+                {currentCharacters
+                    ? currentCharacters?.map(character => <div key={character.id}>
+
+                        {character.name}
+                        <img src={character?.image}/>
+                    </div>)
+                    : <div>Loading...</div>
+                }
+            </InfiniteScroll>
         </section>
     )
 }

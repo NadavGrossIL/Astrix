@@ -1,9 +1,8 @@
-import charactersReducer, {addCharacter, CharactersState} from './charactersSlice';
+import charactersReducer, {addCharacters, CharactersState} from './charactersSlice';
 
 describe('counter reducer', () => {
     const initialState: CharactersState = {
-        characters: [],
-        info: {}
+        loadedCharacters: [],
     };
     it('should handle initial state', () => {
         expect(charactersReducer(undefined, { type: 'unknown' })).toEqual({
@@ -12,8 +11,8 @@ describe('counter reducer', () => {
         });
     });
 
-    it('should handle add character', () => {
-        const actual = charactersReducer(initialState, addCharacter({name: "rick"}));
-        expect(actual.characters).toEqual([{name: "rick"}]);
+    it('should handle add characters', () => {
+        const actual = charactersReducer(initialState, addCharacters([{name: "rick", id: 1234, image:'someUrl'}]));
+        expect(actual.loadedCharacters).toEqual([{name: "rick"}]);
     });
 });
