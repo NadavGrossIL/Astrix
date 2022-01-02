@@ -3,7 +3,8 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 export interface Character {
     id: number,
     name: string,
-    image: string
+    image: string,
+    status?:string,
 }
 
 export interface CharactersInfo {
@@ -31,7 +32,7 @@ export const apiSlice = createApi({
         getCharactersByName: builder.query<Characters, string>({
             query: (name) => `${CHARACTERS_QUERY}/?name=${name}`
         }),
-        getSingleCharacterById: builder.query<Character, number>({
+        getSingleCharacterById: builder.query({
             query: (characterId) => `${CHARACTERS_QUERY}/${characterId}`
         })
     })
