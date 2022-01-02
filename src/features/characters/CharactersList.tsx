@@ -4,6 +4,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import styles from './CharacterList.module.css';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {addCharacters, selectCharacters} from "./charactersSlice";
+import {Link} from "react-router-dom";
 
 
 export const CharactersList = () => {
@@ -19,6 +20,7 @@ export const CharactersList = () => {
         error
     } = useGetCharactersByPageQuery(page);
 
+
     const loadMore = () => {
         if (characters?.info.next && !isFetching) {
             dispatch(addCharacters(characters?.results));
@@ -28,6 +30,7 @@ export const CharactersList = () => {
 
     return (
         <section className={styles.list}>
+            {currentCharacters &&
             <InfiniteScroll
                 data-testid="episodes-infinite-scroll"
                 pageStart={0}
@@ -36,14 +39,17 @@ export const CharactersList = () => {
                 loader={<div key={0}>Loading...</div>}
             >
                 {currentCharacters
-                    ? currentCharacters?.map(character => <div key={character.id}>
-
-                        {character.name}
-                        <img src={character?.image}/>
-                    </div>)
+                    ? currentCharacters.map(character =>
+                        <Link to={`/${character.id}`} key={character.id}>
+                            <div key={character.id}>
+                                {character.name}
+                                <img src={character?.image}/>
+                            </div>
+                        </Link>)
                     : <div>Loading...</div>
                 }
             </InfiniteScroll>
+            }
         </section>
     )
 }
