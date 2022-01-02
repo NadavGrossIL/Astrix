@@ -1,16 +1,22 @@
 import {useGetSingleCharacterByIdQuery} from "../api/apiSlice";
-// import {Link} from 'react-router-dom';
+import {Fragment} from "react";
+import {useParams} from "react-router-dom";
 
-export const SingleCharacter = ({match}: { match: any }) => {
-    const characterID = match.params;
-
-    const {data: character, isFetching, isSuccess} = useGetSingleCharacterByIdQuery(characterID);
+export const SingleCharacter = () => {
+    let params = useParams();
+    const {data: character, isFetching, isSuccess} = useGetSingleCharacterByIdQuery(params.characterId);
 
     let content;
     if (isFetching) {
         content = <div>Fetching</div>
-    } else if (isSuccess) {
-        console.log(character)
-        content = <div>{character?.id}</div>
+    } else if (isSuccess && character) {
+        content =
+            <Fragment>
+                <div>{character.id}</div>
+                <div>{character.name}</div>
+                <div>{character.status}</div>
+            </Fragment>
     }
+
+    return <div>{content}</div>
 }
