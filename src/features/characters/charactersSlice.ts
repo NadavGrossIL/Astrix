@@ -15,7 +15,7 @@ export const charactersSlice = createSlice({
     initialState,
     reducers: {
         addCharacters: (state, action: PayloadAction<Character[]>) => {
-             action.payload.forEach(character => state.loadedCharacters.push(character));
+            state.loadedCharacters.push(...action.payload);
         }
     }
 })
