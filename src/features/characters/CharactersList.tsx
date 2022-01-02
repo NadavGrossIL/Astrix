@@ -14,10 +14,7 @@ export const CharactersList = () => {
 
     const {
         data: characters,
-        isFetching,
-        isSuccess,
-        isError,
-        error
+        isFetching
     } = useGetCharactersByPageQuery(page);
 
 
@@ -43,7 +40,7 @@ export const CharactersList = () => {
                         <Link to={`/${character.id}`} key={character.id}>
                             <div key={character.id}>
                                 {character.name}
-                                <img src={character?.image}/>
+                                <img alt={character.name} src={character?.image}/>
                             </div>
                         </Link>)
                     : <div>Loading...</div>
