@@ -5,6 +5,7 @@ import styles from './CharacterList.module.css';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {addCharacters, selectCharacters} from "./charactersSlice";
 import {Link} from "react-router-dom";
+import {Container, Image, List} from 'semantic-ui-react'
 
 
 export const CharactersList = () => {
@@ -26,27 +27,31 @@ export const CharactersList = () => {
     }
 
     return (
-        <section className={styles.list}>
-            {currentCharacters &&
-            <InfiniteScroll
-                data-testid="episodes-infinite-scroll"
-                pageStart={0}
-                loadMore={loadMore}
-                hasMore={!!characters?.info.next}
-                loader={<div key={0}>Loading...</div>}
-            >
-                {currentCharacters
-                    ? currentCharacters.map(character =>
-                        <Link to={`/${character.id}`} key={character.id}>
-                            <div key={character.id}>
-                                {character.name}
-                                <img alt={character.name} src={character?.image}/>
-                            </div>
-                        </Link>)
-                    : <div>Loading...</div>
+        <Container>
+            <List selection verticalAlign='middle' size="huge">
+                {currentCharacters &&
+                <InfiniteScroll
+                    data-testid="episodes-infinite-scroll"
+                    pageStart={0}
+                    loadMore={loadMore}
+                    hasMore={!!characters?.info.next}
+                    loader={<div key={0}>Loading...</div>}
+                >
+                    {currentCharacters
+                        ? currentCharacters.map(character =>
+                            <Link to={`/${character.id}`} key={character.id}>
+                                <List.Item key={character.id} className={styles.listItem}>
+                                    <Image avatar src={character.image}/>
+                                    <List.Content>
+                                        <List.Header>{character.name}</List.Header>
+                                    </List.Content>
+                                </List.Item>
+                            </Link>)
+                        : <div>Loading...</div>
+                    }
+                </InfiniteScroll>
                 }
-            </InfiniteScroll>
-            }
-        </section>
+            </List>
+        </Container>
     )
 }
