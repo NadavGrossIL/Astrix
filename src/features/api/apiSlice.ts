@@ -1,10 +1,18 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
+export interface CharacterLocation {
+    name: string,
+    url: string
+}
+
 export interface Character {
     id: number,
     name: string,
     image: string,
-    status?:string,
+    status: string,
+    species: string,
+    gender: string,
+    location: CharacterLocation
 }
 
 export interface CharactersInfo {
