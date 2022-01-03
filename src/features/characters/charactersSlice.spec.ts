@@ -1,6 +1,6 @@
 import charactersReducer, {addCharacters, CharactersState} from './charactersSlice';
 
-describe('counter reducer', () => {
+describe('characters reducer', () => {
     const initialState: CharactersState = {
         loadedCharacters: [],
     };
