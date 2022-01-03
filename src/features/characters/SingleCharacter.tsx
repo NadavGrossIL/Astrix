@@ -1,6 +1,7 @@
 import {useGetSingleCharacterByIdQuery} from "../api/apiSlice";
-import {Fragment} from "react";
 import {useParams} from "react-router-dom";
+import {Card, Container, Image, Loader} from "semantic-ui-react";
+import styles from './SingleCharacter.module.css';
 
 export const SingleCharacter = () => {
     let params = useParams();
@@ -8,14 +9,20 @@ export const SingleCharacter = () => {
 
     let content;
     if (isFetching) {
-        content = <div>Fetching</div>
+        content = <Loader active>Loading</Loader>
     } else if (isSuccess && character) {
         content =
-            <Fragment>
-                <div>{character.id}</div>
-                <div>{character.name}</div>
-                <div>{character.status}</div>
-            </Fragment>
+            <Container textAlign="center" className={styles.singleCharacterContainer}>
+                <Card>
+                    <Image src={character.image} wrapped ui={false}/>
+                    <Card.Content>
+                        <Card.Header>{character.name}</Card.Header>
+                        <Card.Meta>{`${character.species} | ${character.gender}`}</Card.Meta>
+                        <Card.Description>Status: {character.status}</Card.Description>
+                        <Card.Description>Location: {character.location.name}</Card.Description>
+                    </Card.Content>
+                </Card>
+            </Container>
     }
 
     return <div>{content}</div>
